@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/fore"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="145dp"
+        android:background="#4f313131"
+        android:orientation="vertical">
+
+        <include layout="@layout/item_index" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1.1dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="0dp"
+            android:background="#cccbcb" />
+
+        <include
+            android:id="@+id/weather_now"
+            layout="@layout/item_weather" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1.1dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="0dp"
+            android:background="#cccbcb" />
+
+        <include
+            android:id="@+id/weather_second"
+            layout="@layout/item_weather" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1.1dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="0dp"
+            android:background="#cccbcb" />
+
+        <include
+            android:id="@+id/weather_third"
+            layout="@layout/item_weather" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1.1dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="0dp"
+            android:background="#cccbcb" />
+
+        <include
+            android:id="@+id/weather_four"
+            layout="@layout/item_weather" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="160dp"
+        android:layout_below="@id/fore"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="13dp"
+        android:background="#4f313131">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="15dp"
+            android:layout_alignEnd="@+id/textView6"
+            android:layout_alignTop="@+id/up_down"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/chahua" />
+
+        <com.sparklyys.yweather.SunView.SunriseView
+            android:id="@+id/sun"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp" />
+
+        <TextView
+            android:id="@+id/up_down"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="6dp"
+            android:text="日出日落"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/sun"
+            android:layout_marginBottom="14dp"
+            android:layout_toEndOf="@+id/sun"
+            android:text="Now:"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/now"
+            android:layout_alignBottom="@+id/now"
+            android:layout_marginStart="0dp"
+            android:layout_toEndOf="@+id/now"
+            android:text="16:40"
+            android:textColor="@color/colorWhite"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="fill_parent"
+            android:layout_height="1.1dp"
+            android:layout_below="@id/up_down"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="8dp"
+            android:background="#cccbcb" />
+
+        <TextView
+            android:id="@+id/up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView4"
+            android:layout_alignBottom="@+id/textView4"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="15dp"
+            android:text="日出"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView4"
+            android:layout_alignBottom="@+id/textView4"
+            android:layout_alignEnd="@+id/textView4"
+            android:text="日落"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="fill_parent"
+            android:layout_height="1.1dp"
+            android:layout_below="@id/sun"
+            android:layout_marginLeft="27dp"
+            android:layout_marginRight="190dp"
+            android:layout_marginTop="2dp"
+            android:background="#cccbcb" />
+    </RelativeLayout>
+</RelativeLayout>
