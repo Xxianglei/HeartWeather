@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_overcast"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#00000000"
+        android:fitsSystemWindows="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center_vertical"
+            android:background="@mipmap/common_back_arrow"
+            android:scaleType="centerInside" />
+    </android.support.v7.widget.Toolbar>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_below="@id/main_toolbar"
+    android:id="@+id/main_toolbar1"
+    android:layout_height="1dp" />
+    <ScrollView
+        android:fadingEdge="none"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_toolbar1"
+        android:background="#4f313131"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/tubiao"
+                android:layout_width="130dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_height="130dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/weather" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_below="@id/tubiao"
+                android:gravity="center_horizontal"
+                android:text="知天气"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/banben"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name"
+                android:textColor="@color/colorWhite"
+                android:gravity="center_horizontal"
+                android:text="v1.0" />
+
+            <ImageView
+                android:id="@+id/fenge1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/banben"
+                android:layout_marginTop="15dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/fenge" />
+
+            <TextView
+                android:id="@+id/gaishu"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fenge1"
+                android:layout_marginTop="15dp"
+                android:text="  概述"
+                android:textColor="@color/colorWhite"
+                android:textSize="17dp" />
+
+            <Button
+                android:textColor="@color/colorWhite"
+                android:id="@+id/zhuye"
+                android:layout_marginLeft="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/gaishu"
+                android:layout_marginTop="18dp"
+                android:background="#00000000"
+                android:drawableLeft="@mipmap/name"
+                android:gravity="center_vertical"
+                android:text="    项目主页" />
+
+            <Button android:textColor="@color/colorWhite"
+                android:id="@+id/fankui"
+                android:layout_marginLeft="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/zhuye"
+                android:background="#00000000"
+                android:drawableLeft="@mipmap/fankui"
+                android:gravity="center_vertical"
+                android:text="    意见反馈" />
+
+            <Button android:textColor="@color/colorWhite"
+                android:id="@+id/genxin"
+                android:layout_marginLeft="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fankui"
+                android:background="#00000000"
+                android:drawableLeft="@mipmap/genxing"
+                android:gravity="center_vertical"
+                android:text="    检查更新" />
+
+            <Button android:textColor="@color/colorWhite"
+                android:id="@+id/fenxiang"
+                android:layout_marginLeft="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/genxin"
+                android:background="#00000000"
+                android:drawableLeft="@mipmap/sharethis"
+                android:gravity="center_vertical"
+                android:text="    分享应用" />
+
+            <ImageView
+                android:id="@+id/fenge2"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/fenxiang"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/fenge" />
+
+            <TextView android:textColor="@color/colorWhite"
+                android:id="@+id/ganxie"
+                android:layout_marginLeft="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fenge2"
+                android:layout_marginTop="25dp"
+                android:text="    感谢"
+                android:drawableLeft="@mipmap/heart"
+
+
+                />
+
+            <TextView android:textColor="@color/colorWhite"
+                android:id="@+id/xinzhi"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ganxie"
+                android:layout_marginTop="20dp"
+                android:text="           .心知天气提供天气数据" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_marginTop="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/xinzhi"
+                android:id="@+id/github"
+                android:src="@mipmap/github" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/github"
+                android:text="GitHub"
+
+                android:textColor="@color/colorWhite"
+                android:gravity="center_horizontal"
+                android:textSize="10dp"/>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>

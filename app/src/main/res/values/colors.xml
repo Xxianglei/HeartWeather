@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00BCD4</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#3FC1C9</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="secondly_text_white">#ABffffff</color>
+
+
+    <color name="black">#000000</color>
+
+    <color name="start_color">#69cfe5</color><![CDATA[
+
+
+
+>
+
+    ]]>
+    <color name="alertdialog_line">#c6c6c6</color>
+
+    <color name="actionsheet_blue">#037BFF</color>
+
+    <color name="color3">#2584ce</color>
+
+    <color name="color2">#31bdeb</color>
+
+    <color name="color1">#baf2d6</color>
+    <color name="color4">#1364f1</color>
+
+    <color name="main_background">#FFFFFF</color>
+    <color name="text_color">#363535</color>
+</resources>
