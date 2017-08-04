@@ -70,5 +70,16 @@
             android:textStyle="normal" />
 
     </RelativeLayout>
-
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="@color/colorWhite"
+    android:text="发布时间："
+    android:id="@+id/push"
+    android:textSize="10dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginBottom="3dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginEnd="30dp" />
 </RelativeLayout>

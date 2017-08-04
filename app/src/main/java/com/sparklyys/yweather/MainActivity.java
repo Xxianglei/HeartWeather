@@ -5,6 +5,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 
@@ -26,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -45,6 +49,8 @@ import com.sparklyys.yweather.utils.ParseNowWeatherUtil;
 import com.sparklyys.yweather.utils.ParsePm;
 import com.sparklyys.yweather.utils.ParseWeatherUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -125,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
     private ImageButton location;
     private StringBuffer buffer;
     private StepArcView sv;
-
+    private String imagePath;
     private int[] path = new int[]{R.mipmap.one, R.mipmap.two, R.mipmap.three, R.mipmap.four, R.mipmap.ll};
     //异步更新UI控件中的当前天气信息
     private Handler mmHandler = new Handler() {
@@ -141,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
             }
         }
     };
+    private TextView push;
+    private ImageButton fenx;
 
     private void readBCperfernces() {
 
@@ -200,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
                     nowWeather = parseNowWeatherUtil.getInfomation(jsonString);
                     Log.i("天气", nowWeather.getName());
                     //先需要下载数据
-                    saveperfernces(city, nowWeather.getTemperature().toString() + "°", nowWeather.getWeatherText().toString(), nowWeather.getTemperature().toString() + "°", "体感温度" + nowWeather.getFeels_like().toString() + "°", "能见度" + nowWeather.getVisibility() + "千米", " " + nowWeather.getWind_direction() + "风" + nowWeather.getWind_scale() + "级", nowWeather.getWeatherCode(), " 气压" + nowWeather.getPressure().toString() + "百帕");
+                    saveperfernces(city, nowWeather.getTemperature().toString() + "°", nowWeather.getWeatherText().toString(), nowWeather.getTemperature().toString() + "°", "体感温度" + nowWeather.getFeels_like().toString() + "°", "能见度" + nowWeather.getVisibility() + "千米", " " + nowWeather.getWind_direction() + " " + nowWeather.getWind_scale() , nowWeather.getWeatherCode(), " 气压" + nowWeather.getPressure().toString() + "百帕",nowWeather.getPush().toString()+"发布");
                     readperfernces();
 
 
@@ -216,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
                     WeatherList = parseWeatherUtil.getInfomation(jsonString);
                     //设置数据
                     setDatas();
+                    readfore();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -410,8 +419,8 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 
             }
 
-
-            String address = "https://api.seniverse.com/v3/weather/now.json?key=ftyaftrewoqijxd5&location=" + city1 + "&language=zh-Hans&unit=c";
+             // https://free-api.heweather.com/v5/now?city=jilin&key=f75021d48c674f89b3928c2524644ac8
+            String address = "https://free-api.heweather.com/v5/now?city=" + city1 + "&key=f75021d48c674f89b3928c2524644ac8";
             HttpDownloader httpDownloader = new HttpDownloader();
             String jsonString = httpDownloader.download(address);
 
@@ -476,7 +485,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
             }
             //https://api.seniverse.com/v3/weather/daily.json?key=ftyaftrewoqijxd5&location=beijing&language=zh-Hans&unit=c&start=0&days=5
             // https://api.seniverse.com/v3/weather/daily.json?key=ftyaftrewoqijxd5&location=beijing&language=zh-Hans&unit=c&start=0&days=5
-            String address = "https://api.seniverse.com/v3/weather/daily.json?key=ftyaftrewoqijxd5&location=" + city6 + "&language=zh-Hans&unit=c&start=0&days=5";
+            String address = "https://api.seniverse.com/v3/weather/daily.json?key=fvdzvvujhi7zevjg&location=" + city6 + "&language=zh-Hans&unit=c&start=0&days=5";
             HttpDownloader httpDownloader = new HttpDownloader();
             String jsonString = httpDownloader.download(address);
 
@@ -540,11 +549,11 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
 
-            } // sun
+            } // sun  https://free-api.heweather.com/v5/forecast?city=jilin&key=f75021d48c674f89b3928c2524644ac8
             //https://api.seniverse.com/v3/geo/sun.json?key=ftyaftrewoqijxd5&location=beijing&language=zh-Hans&start=0&days=7
             //https://api.seniverse.com/v3/weather/daily.json?key=ftyaftrewoqijxd5&location=beijing&language=zh-Hans&unit=c&start=0&days=5
             // https://api.seniverse.com/v3/weather/daily.json?key=ftyaftrewoqijxd5&location=beijing&language=zh-Hans&unit=c&start=0&days=5
-            String address = "https://api.seniverse.com/v3/geo/sun.json?key=ftyaftrewoqijxd5&location=" + city6 + "&language=zh-Hans&start=0&days=7";
+            String address = " https://free-api.heweather.com/v5/forecast?city=" + city6 + "&key=f75021d48c674f89b3928c2524644ac8";
             HttpDownloader httpDownloader = new HttpDownloader();
             String jsonString = httpDownloader.download(address);
 
@@ -571,6 +580,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
         String string6 = sharedPreferences.getString("VISIBILITY", "");
         String string7 = sharedPreferences.getString("WINDS", "");
         int string8 = sharedPreferences.getInt("CODE", 0);
+        String string10=sharedPreferences.getString("PUSH","");
         String string9 = sharedPreferences.getString("PRESSURE", "");
 
 
@@ -579,10 +589,12 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
         main_location.setText(string1);
         winds.setText(string7);
         pressure.setText(string9);
-        title_temp.setText(string4); //  标题栏温度
-        main_temp.setText(string2); //大温度
+        title_temp.setText(string4);  //  标题栏温度
+        main_temp.setText(string2);  //大温度
         main_info.setText(string3);  //优
         code = string8;
+        push.setText(string10);
+
         tianqi(code);               //  修改实时天气图标
     }
 
@@ -608,14 +620,14 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
         settime();
         //  有数据  不会NULL
         //  运行定位
-        //location();
-        startSunAnim(5, 20);
+        location();
+        startSunAnim(5, 19);
         readperfernces();
         readLifeperfernces();
         readPmperfernces();
-        readfore();
         readSunperfernces();
         readBCperfernces();
+
         mBigWindMill = (WindPath) findViewById(R.id.id_wind);
         mSmallWindMill = (WindPath) findViewById(R.id.id_windsmall);
         mBigWindMill.startAnim();
@@ -628,11 +640,54 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
             @Override
             public void onClick(View view) {
                 location();
+                ToastUtils.showToast(getApplicationContext(), "已定位到当前城市：" + buffer.toString());
             }
         });
 
+
+        fenx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                screenshot();
+                if (imagePath != null) {
+                    Intent intent = new Intent(Intent.ACTION_SEND); // 启动分享发送的属性
+                    File file = new File(imagePath);
+                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));// 分享的内容
+                    intent.setType("image/*");// 分享发送的数据类型
+                    Intent chooser = Intent.createChooser(intent, "天气分享");
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(chooser);
+                    }
+                } else {
+                    ToastUtils.showToast(MainActivity.this,"分享失败！");
+                }
+            }
+        });
     }
 
+    private void screenshot() {
+        // 获取屏幕
+        View dView = getWindow().getDecorView();
+        dView.setDrawingCacheEnabled(true);
+        dView.buildDrawingCache();
+        Bitmap bmp = dView.getDrawingCache();
+        if (bmp != null)
+        {
+            try {
+                // 获取内置SD卡路径
+                String sdCardPath = Environment.getExternalStorageDirectory().getPath();
+                // 图片文件路径
+                imagePath = sdCardPath + File.separator + "screenshot.png";
+
+                File file = new File(imagePath);
+                FileOutputStream os = new FileOutputStream(file);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, os);
+                os.flush();
+                os.close();
+            } catch (Exception e) {
+            }
+        }
+    }
 
     private void settime() {
 
@@ -725,7 +780,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
                 new Thread(new WeatherpmThread(city5)).start();   // pm 25
                 new Thread(new WeathersunThread(city5)).start();   // 日出日落
                 new Thread(new WeatherLifeThread(city5)).start();   // 生活指数
-                ToastUtils.showToast(getApplicationContext(), "已定位到当前城市：" + buffer.toString());
+
                 mLocationClient.stopLocation();//停止定位
 
 
@@ -765,7 +820,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
     private void longTimeMethod() {
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -773,7 +828,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
     }
 
 
-    private void saveperfernces(String cityname, String main_temp, String main_info, String title_temp, String feels_like, String visibility, String winds, int code, String pressure) {
+    private void saveperfernces(String cityname, String main_temp, String main_info, String title_temp, String feels_like, String visibility, String winds, int code, String pressure,String push) {
 
 
         SharedPreferences mySharedPreferences = getSharedPreferences("city",
@@ -791,6 +846,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
         editor.putString("WINDS", winds);
         editor.putInt("CODE", code);
         editor.putString("PRESSURE", pressure);
+        editor.putString("PUSH",push);
         //提交当前数据
         editor.commit();
         Log.e("保存成功", cityname);
@@ -970,6 +1026,8 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
     }
 
     public void bindViews() {
+        fenx = (ImageButton)findViewById(R.id.share);
+        push = (TextView)findViewById(R.id.push);
         relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
         time = (TextView) findViewById(R.id.time);
         up1 = (TextView) findViewById(R.id.up);
@@ -1033,35 +1091,35 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
     }
 
     public void tianqi(int code) {
-        if (code == 0 || code == 2 || code == 38) {
+        if (code ==100||code==900) {
             tianqi.setImageResource(R.mipmap.sunsun);
-        } else if (code == 4 || code == 5 || code == 7) {
+        } else if (code == 101 || code == 102 || code == 103) {
             tianqi.setImageResource(R.mipmap.duoyun);
-        } else if (code == 9) {
+        } else if (code == 104) {
             tianqi.setImageResource(R.mipmap.yingtian);
-        } else if (code == 13) {
+        } else if (code == 300||code==301||code==305||code==309) {
             tianqi.setImageResource(R.mipmap.xiaoyu);
-        } else if (code == 10 || code == 14 || code == 11 || code == 12) {
+        } else if (code == 306) {
             tianqi.setImageResource(R.mipmap.zhongyu);
-        } else if (code == 15 || code == 19) {
+        } else if (code == 307 || code == 308|| code == 310|| code == 311|| code == 312) {
             tianqi.setImageResource(R.mipmap.dayu);
-        } else if (code == 16 || code == 17 || code == 18) {
+        } else if (code == 302 || code == 303 ) {
             tianqi.setImageResource(R.mipmap.leizhenyu);
-        } else if (code == 20) {
+        } else if (code == 404||code==405||code==406||code==401||code==407) {
             tianqi.setImageResource(R.mipmap.yujiaxue);
-        } else if (code == 21 || code == 22) {
+        } else if (code == 313||code==400) {
             tianqi.setImageResource(R.mipmap.xiaoxue);
-        } else if (code == 23 || code == 24 || code == 25 || code == 37) {
+        } else if (code == 402|| code == 403 ) {
             tianqi.setImageResource(R.mipmap.daxue);
-        } else if (code == 26 || code == 27 || code == 28 || code == 29) {
+        } else if (code == 503 || code == 504 || code == 507 || code == 508) {
             tianqi.setImageResource(R.mipmap.shachen);
-        } else if (code == 30) {
+        } else if (code == 502) {
             tianqi.setImageResource(R.mipmap.gg);
-        } else if (code == 31) {
+        } else if (code == 501||code==500) {
             tianqi.setImageResource(R.mipmap.tt);
-        } else if (code == 32 || code == 33) {
+        } else if (code == 200||code==201||code == 202|| code == 203|| code == 204|| code == 205|| code == 206|| code == 207|| code == 208|| code == 209||code==210|| code == 211|| code == 212|| code == 213) {
             tianqi.setImageResource(R.mipmap.dafeng);
-        } else if (code == 34 || code == 35 || code == 36) {
+        } else if (code == 304) {
             tianqi.setImageResource(R.mipmap.leibing);
         }
     }
@@ -1075,11 +1133,11 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
             threexiao.setImageResource(R.mipmap.yingtian);
         } else if (code == 13) {
             threexiao.setImageResource(R.mipmap.xiaoyu);
-        } else if (code == 10 || code == 14 || code == 11 || code == 12) {
+        } else if (code == 10 || code == 14 | code == 12) {
             threexiao.setImageResource(R.mipmap.zhongyu);
         } else if (code == 15 || code == 19) {
             threexiao.setImageResource(R.mipmap.dayu);
-        } else if (code == 16 || code == 17 || code == 18) {
+        } else if (code == 16 || code == 17 || code == 18|| code == 11 ) {
             threexiao.setImageResource(R.mipmap.leizhenyu);
         } else if (code == 20) {
             threexiao.setImageResource(R.mipmap.yujiaxue);
@@ -1110,11 +1168,11 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
             onexiao.setImageResource(R.mipmap.yingtian);
         } else if (code == 13) {
             onexiao.setImageResource(R.mipmap.xiaoyu);
-        } else if (code == 10 || code == 14 || code == 11 || code == 12) {
+        } else if (code == 10 || code == 14  || code == 12) {
             onexiao.setImageResource(R.mipmap.zhongyu);
         } else if (code == 15 || code == 19) {
             onexiao.setImageResource(R.mipmap.dayu);
-        } else if (code == 16 || code == 17 || code == 18) {
+        } else if (code == 16 || code == 17 || code == 18|| code == 11 ) {
             onexiao.setImageResource(R.mipmap.leizhenyu);
         } else if (code == 20) {
             onexiao.setImageResource(R.mipmap.yujiaxue);
@@ -1144,11 +1202,11 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
             twoxiao.setImageResource(R.mipmap.yingtian);
         } else if (code == 13) {
             twoxiao.setImageResource(R.mipmap.xiaoyu);
-        } else if (code == 10 || code == 14 || code == 11 || code == 12) {
+        } else if (code == 10 || code == 14 || code == 12) {
             twoxiao.setImageResource(R.mipmap.zhongyu);
         } else if (code == 15 || code == 19) {
             twoxiao.setImageResource(R.mipmap.dayu);
-        } else if (code == 16 || code == 17 || code == 18) {
+        } else if (code == 16 || code == 17 || code == 18|| code == 11 ) {
             twoxiao.setImageResource(R.mipmap.leizhenyu);
         } else if (code == 20) {
             twoxiao.setImageResource(R.mipmap.yujiaxue);
@@ -1178,11 +1236,11 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
             fourxiao.setImageResource(R.mipmap.yingtian);
         } else if (code == 13) {
             fourxiao.setImageResource(R.mipmap.xiaoyu);
-        } else if (code == 10 || code == 14 || code == 11 || code == 12) {
+        } else if (code == 10 || code == 14  || code == 12) {
             fourxiao.setImageResource(R.mipmap.zhongyu);
         } else if (code == 15 || code == 19) {
             fourxiao.setImageResource(R.mipmap.dayu);
-        } else if (code == 16 || code == 17 || code == 18) {
+        } else if (code == 16 || code == 17 || code == 18|| code == 11 ) {
             fourxiao.setImageResource(R.mipmap.leizhenyu);
         } else if (code == 20) {
             fourxiao.setImageResource(R.mipmap.yujiaxue);

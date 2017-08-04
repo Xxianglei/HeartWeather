@@ -22,6 +22,7 @@
             android:layout_marginStart="14dp"
             android:layout_marginTop="6dp"
             android:text="风向 气压"
+            android:layout_marginBottom="8dp"
             android:textColor="@color/colorWhite"
             android:textSize="20dp" />
         <ImageView
@@ -292,6 +293,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="14dp"
             android:layout_marginTop="6dp"
+            android:layout_marginBottom="8dp"
             android:text="体感 能见度"
             android:textColor="@color/colorWhite"
             android:textSize="20dp" />

@@ -20,6 +20,7 @@ public class Weather_model {
     private String wind_speed;      //风速
     private String wind_scale;      //风力等级
     private   int code;
+    private  String push;
     private int pm;
     private String sunset;
     private String sunrise;
@@ -314,5 +315,13 @@ public class Weather_model {
 
     public void setDetails6(String details6) {
         this.details6 = details6;
+    }
+
+    public String getPush() {
+        return push;
+    }
+
+    public void setPush(String push) {
+        this.push = push;
     }
 }

@@ -25,8 +25,8 @@
     android:layout_width="fill_parent"
     android:layout_below="@id/main_toolbar"
     android:id="@+id/main_toolbar1"
-    android:layout_height="1dp" />
-    <ScrollView
+    android:layout_height="0dp" />
+    <com.sparklyys.yweather.MtScrollView.MtScrollView
         android:fadingEdge="none"
         android:overScrollMode="never"
         android:layout_width="match_parent"
@@ -189,7 +189,7 @@
 
         </RelativeLayout>
 
-    </ScrollView>
+    </com.sparklyys.yweather.MtScrollView.MtScrollView>
 
 
 </RelativeLayout>
